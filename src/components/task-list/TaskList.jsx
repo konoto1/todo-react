@@ -1,9 +1,7 @@
 import { Task } from "./Task";
 
-export function TaskList() {
-    const data = [1, 1, 1, 1, 1, 1];
-
-    if (data.length === 0) {
+export function TaskList(params) {
+    if (params.data.length === 0) {
         return (
             <div className="list empty">
                 Empty
@@ -13,7 +11,7 @@ export function TaskList() {
 
     return (
         <div className="list">
-            {data.map((item, index) => <Task key={index} />)}
+            {params.data.map((item, index) => <Task key={index} data={item} />)}
         </div>
     );
 }

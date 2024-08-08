@@ -3,7 +3,6 @@ body * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  vertical-align: top;
 }
 
 body {
@@ -23,22 +22,29 @@ form {
   width: 100%;
 }
 
-form>input,
-form>button {
-  min-height: 3rem;
-  width: 100%;
-  padding: 0.3rem 0.5rem;
-  font-size: 2rem;
-  line-height: 2rem;
+form>input {
+  padding: 0.3em 0.5em;
+  font-size: 1.2rem;
 }
 
-/* ------------------------------ */
+form>.btnList {
+  display: flex;
+}
+
+form button {
+  width: 100%;
+  padding: 0.3em 0.5em;
+  font-size: 1.3rem;
+  line-height: 1em;
+}
+
+/* ------------------------------- */
 
 .list-actions {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .list-actions .title {
@@ -51,16 +57,11 @@ form>button {
 }
 
 .list-actions button.active {
-  font-size: 1.1rem;
-  padding: 0.2rem 0.5rem;
   background-color: #36f;
   color: #fff;
 }
 
-
-
-/* ------------------------------ */
-
+/* ------------------------------- */
 
 .list {
   display: grid;
@@ -71,10 +72,10 @@ form>button {
 .list.empty {
   border: 0.2rem solid #ccc;
   padding: 2rem;
-  text-align: center;
-  font-style: italic;
   font-size: 2rem;
   color: #999;
+  text-align: center;
+  font-style: italic;
 }
 
 .list>.item {
@@ -82,13 +83,13 @@ form>button {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  border: 1px solid #ccc;
   position: relative;
+  border: 1px solid #ccc;
   border-left: 0.5rem solid #000;
 }
 
 .list>.item[data-state='done'] {
-  background-color: #CCC;
+  background-color: #ccc;
 }
 
 .list .state {
@@ -106,15 +107,12 @@ form>button {
 }
 
 .list .text {
-  width: inherit;
   font-size: 1.5rem;
-  overflow: auto;
 }
 
 .list .actions {
   display: flex;
   gap: 1rem;
-  margin-top: auto;
 }
 
 .list .actions button {
@@ -133,50 +131,36 @@ form>button {
 
 .toast {
   display: none;
-  /* display: flex; */
   position: fixed;
   bottom: 3rem;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 24rem;
+  background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 0.2rem 0.4rem #0003;
-  background-color: #fff;
 }
 
 .toast.active {
   display: flex;
 }
 
-.toast[data-state=''] .icon {
-  display: none;
-}
-
 .toast>.icon {
-  padding: 1rem;
   width: 4rem;
+  padding: 1rem;
 }
 
 .toast>.icon>svg {
   display: none;
-  height: 2rem;
   width: 2rem;
+  height: 2rem;
 }
 
-.toast[data-state="success"]>.icon>svg:nth-child(1) {
-  display: block;
-}
-
-.toast[data-state="info"]>.icon>svg:nth-child(2) {
-  display: block;
-}
-
-.toast[data-state="warning"]>.icon>svg:nth-child(3) {
-  display: block;
-}
-
-.toast[data-state="error"]>.icon>svg:nth-child(4) {
+.toast[data-state='success']>.icon>svg:nth-child(1),
+.toast[data-state='info']>.icon>svg:nth-child(2),
+.toast[data-state='warning']>.icon>svg:nth-child(3),
+.toast[data-state='error']>.icon>svg:nth-child(4) {
   display: block;
 }
 
@@ -194,25 +178,25 @@ form>button {
   margin-bottom: 0.5rem;
 }
 
-.toast[data-state="success"]>.texts>.title {
+.toast[data-state='success']>.texts>.title {
   color: green;
 }
 
-.toast[data-state="info"]>.texts>.title {
+.toast[data-state='info']>.texts>.title {
   color: blue;
 }
 
-.toast[data-state="warning"]>.texts>.title {
+.toast[data-state='warning']>.texts>.title {
   color: orange;
 }
 
-.toast[data-state="error"]>.texts>.title {
+.toast[data-state='error']>.texts>.title {
   color: red;
 }
 
 .toast>.close {
-  padding: 1rem;
   width: 4rem;
+  padding: 1rem;
   margin-left: auto;
 }
 

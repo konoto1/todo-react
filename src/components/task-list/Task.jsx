@@ -1,44 +1,53 @@
 import { useState } from "react";
 
-export function Task() {
-    const [count, setCount] = useState(0);
-    const [title, setTitle] = useState('Pirminis pavadinimas');
-
-    function updateCount1() {
-        setCount(count + 1);
-    }
-
-    function updateCount2() {
-        setCount(count + 2);
-    }
-
-    function updateCount3() {
-        setCount(count + 3);
-    }
-
-    function updateTitle() {
-        setTitle('Atnaujinta pavadinimo reiksme!');
-    }
-
+export function Task(params) {
+    const { text } = params.data;
+    const [taskVisibility, setTaskVisibility] = useState(true);
+    const [taskDone, setTaskDone] = useState(false);
+    const [editForm, setEditForm] = useState(false);
+    const [taskText, setTaskText] = useState(text);
+    const [inputText, setInputText] = useState(text);
     const style = {
         borderLeftColor: '#ff0000',
     };
 
+    function handleUpdate(e) {
+        e.preventDefault();
+
+        const cleanText = inputText.trim();
+
+        if (cleanText !== '') {
+            setTaskText(cleanText);
+            setInputText(cleanText);
+            setEditForm(prev => false);
+        }
+    }
+
+    if (taskVisibility === false) {
+        return;
+    }
+
     return (
-        <article className="item" data-state="" style={style}>
+        <article className="item" data-state={taskDone ? 'done' : ''} style={style}>
             <div className="date">2024-07-17 14:29:11</div>
             <div className="state">Atlikta</div>
-            <div className="text" onClick={updateTitle}>{title} ({count})</div>
-            <form className="hidden">
-                <input type="text" value="What shoould I doo?" />
-                <button className="update" type="submit">Update</button>
-                <button className="cancel" type="button">Cancel</button>
+            <div className="text">{taskText}</div>
+            <form onSubmit={handleUpdate} className={editForm ? '' : 'hidden'}>
+                <input onChange={e => setInputText(e.target.value)} type="text" value={inputText} />
+                <div className="btnList">
+                    <button onClick={() => setInputText(taskText)} className="clear" type="reset">Reset</button>
+                    <button onClick={() => setInputText('')} className="clear" type="reset">Clear</button>
+                    <button className="update" type="submit">Update</button>
+                    <button onClick={() => setEditForm(prev => false)} className="cancel" type="button">Cancel</button>
+                </div>
             </form>
             <div className="actions">
-                <button className="done" onClick={updateCount1}>Done</button>
-                <div className="divider"></div>
-                <button className="edit" onClick={updateCount2}>Edit</button>
-                <button className="delete" onClick={updateCount3}>Delete</button>
+                {!taskDone && <>
+                    <button onClick={() => setTaskDone(true)} className="done">Done</button>
+                    <div className="divider"></div>
+                    <button className="edit" onClick={() => setEditForm(prev => true)}>Edit</button>
+                </>}
+                <button onClick={() => setTaskVisibility(prev => false)} className="delete">Delete</button>
             </div>
         </article>
     );
