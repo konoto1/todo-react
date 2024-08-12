@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export function Task(params) {
+    const {removeTask, data} = params;
     const { text } = params.data;
     const [taskVisibility, setTaskVisibility] = useState(true);
     const [taskDone, setTaskDone] = useState(false);
@@ -47,7 +48,7 @@ export function Task(params) {
                     <div className="divider"></div>
                     <button className="edit" onClick={() => setEditForm(prev => true)}>Edit</button>
                 </>}
-                <button onClick={() => setTaskVisibility(prev => false)} className="delete">Delete</button>
+                <button onClick={() => removeTask(taskText)} className="delete">Delete</button>
             </div>
         </article>
     );

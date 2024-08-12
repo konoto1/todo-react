@@ -6,29 +6,34 @@ import { tasks } from "./data/tasks.js";
 
 function App() {
   const [taskList, setTaskList] = useState(tasks);
-  const [count, setCount] = useState(0);
 
-  function handleTaskListClick() {
-    setTaskList(prev => [
+
+  function addTask (taskText) {
+       setTaskList(prev => [
       ...prev,
       {
-        text: 'Baisus reikalai....'
+        text: taskText,
       }
     ]);
   }
 
+  function removeTask (taskText) {
+    setTaskList(prev => prev.filter(task => task.text !== taskText)); 
+  }
+  
+
   return (
     <main>
-      <h1 onClick={handleTaskListClick}>Todo</h1>
+      <h1>Todo</h1>
       <div>
         <p>Viso užduočių: {taskList.length}</p>
         <p>Likusios atlikti užduotys: {taskList.length}</p>
         <p>Atliktos užduotys: -</p>
-        <p onClick={() => setCount(prevCount => prevCount + 1)}>Ištrintos užduotys: - {count}</p>
+        <p>Ištrintos užduotys: -</p>
       </div>
-      <FormCreateTask />
+      <FormCreateTask addTaskCallback={addTask}/>
       <ListActions />
-      <TaskList data={taskList} />
+      <TaskList data={taskList} removeTask={removeTask}/>
     </main>
   );
 }
