@@ -11,7 +11,7 @@ export function FormCreateTask(props) {
         if (task.trim() === '') {
             return;
         }
-        addTaskCallback(task);
+        addTaskCallback(task, color);
     }
 
     return (

@@ -6,19 +6,45 @@ import { tasks } from "./data/tasks.js";
 
 function App() {
   const [taskList, setTaskList] = useState(tasks);
+  const [id, setId] = useState(tasks.at(-1).id);
 
 
-  function addTask (taskText) {
+  function addTask (taskText, taskColor) {
        setTaskList(prev => [
       ...prev,
       {
+        id: id + 1,
         text: taskText,
+        color: taskColor,
+        sttate: 'todo',
       }
     ]);
+    setId(prev => prev + 1);
   }
 
   function removeTask (taskText) {
-    setTaskList(prev => prev.filter(task => task.text !== taskText)); 
+    setTaskList(prev => prev.filter(task => task.id !== taskText)); 
+  }
+
+  function updateTaskText (id, newText) {
+    setTaskList(prev => prev.map(task => ({
+      ...task,
+      text: task.id === id ? newText : task.text,
+    })));
+  }
+  
+  function updateTaskColor (id, newColor) {
+     setTaskList(prev => prev.map(task => ({
+      ...task,
+      color: task.id === id ? newColor : task.color,
+    })));
+  }
+  
+  function updateTaskState (id) {
+       setTaskList(prev => prev.map(task => ({
+      ...task,
+      state: task.id === id ? 'done': task.state,
+    })));
   }
   
 
@@ -33,7 +59,11 @@ function App() {
       </div>
       <FormCreateTask addTaskCallback={addTask}/>
       <ListActions />
-      <TaskList data={taskList} removeTask={removeTask}/>
+      <TaskList data={taskList}
+      updateTaskText = {updateTaskText}
+      updateTaskColor = {updateTaskColor}
+      updateTaskState = {updateTaskState}
+      removeTask={removeTask}/>
     </main>
   );
 }
