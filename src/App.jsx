@@ -8,8 +8,10 @@ function App() {
 
   const storageDataKey = 'todo-data';
   const storageIdKey = 'todo-last-id';
+  const storageSortingkey = 'todo-sorting';
   const [taskList, setTaskList] = useState(readLocalData);
   const [id, setId] = useState(readLocalId);
+  const [sortingAlgo, setSortingAlgo] = useState(readLocalStorageAlgo);
 
   // func, be antro parametro, pasileidzia kai ispiesiamas komponentas ir kai perpiesiamas komponentas
   useEffect(() => {
@@ -30,6 +32,19 @@ function App() {
   useEffect(() => {
     localStorage.setItem(storageIdKey, JSON.stringify(id));
   }, [id]);
+ 
+  useEffect(() => {
+    localStorage.setItem(storageSortingkey, JSON.stringify(sortingAlgo));
+  }, [sortingAlgo]);
+
+  function readLocalStorageAlgo () {
+    const localData = localStorage.getItem(storageSortingkey);
+
+    if (localData) {
+      return JSON.parse(localData);
+    }
+    return [];
+  }
 
   // function saveDataToLocalStorage () {
   //   localStorage.setItem(storageKey, JSON.stringify(taskList));
@@ -90,6 +105,23 @@ function App() {
     })));
   }
   
+  function sortData () {
+    const algorithmes = {
+      timeAsc: (a, b) => a.id - b.id,
+      timeDsc: (a, b) => b.id - a.id,
+      colorAsc: (a, b) => a.color < b.color ? - 1 : a.color === b.color ? 0 : 1,
+      colorDsc: (a, b) => b.color < a.color ? - 1 : a.color === b.color ? 0 : 1,
+      textAsc: (a, b) => a.text < b.text ? - 1 : a.text === b.text ? 0 : 1,
+      textDsc: (a, b) => b.text < a.text ? - 1 : a.text === b.text ? 0 : 1,
+    }
+    return sortingAlgo in algorithmes 
+    ? taskList.sort(algorithmes[sortingAlgo]) 
+    : taskList;        
+  }
+    
+  function updateSorting (newAlgoName) {
+    setSortingAlgo(newAlgoName);
+  }
 
   return (
     <main>
@@ -101,8 +133,8 @@ function App() {
         <p>Ištrintos užduotys: -</p>
       </div>
       <FormCreateTask addTaskCallback={addTask}/>
-      <ListActions />
-      <TaskList data={taskList}
+      <ListActions updateSorting={updateSorting} sortingAlgo={sortingAlgo}/>
+      <TaskList data={sortData()}
       updateTaskText = {updateTaskText}
       updateTaskColor = {updateTaskColor}
       updateTaskState = {updateTaskState}
