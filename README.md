@@ -43,7 +43,7 @@ Would like to run this project locally? Open terminal and follow these steps:
 
 1. Clone the repo
     ```sh
-    git clone https://github.com/konoto1/scoreboard-react.git
+    git clone https://github.com/konoto1/todo-react.git
     ```
 2. Open the cloned folder name "react-hangman"
 3. Install NPM packages
